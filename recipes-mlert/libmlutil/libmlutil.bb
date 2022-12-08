@@ -8,6 +8,10 @@ SRC_URI = "git://github.com/magic-lantern-studio/mle-core-util.git"
 
 S = "${WORKDIR}/git"
 
+FILES_${PN} += "/opt/MagicLantern/lib/*.so.* /opt/MagicLantern/include/*"
+FILES_${PN}-dev += "/opt/MagicLantern/lib/*.so* /opt/MagicLantern/include/*"
+FILES_${PN}-staticdev += "/opt/MagicLantern/lib/*.a /opt/MagicLantern/include/*"
+
 #inherit autotools
 
 do_configure() {
