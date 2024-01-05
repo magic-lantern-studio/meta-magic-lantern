@@ -7,18 +7,25 @@ SRCREV = "ced026a568fb0b42b5612f0aab93ca3997e58ccc"
 SRC_URI = "git://github.com/magic-lantern-studio/mle-core-util.git"
 
 S = "${WORKDIR}/git"
-D = "${TMPDIR}/MagicLantern"
+D = "${TMPDIR}/MagicLanternRoot"
 
-FILES_${PN} += "/opt/MagicLantern/lib/*.so.* /opt/MagicLantern/include/*"
-FILES_${PN}-dev += "/opt/MagicLantern/lib/*.so* /opt/MagicLantern/include/*"
-FILES_${PN}-staticdev += "/opt/MagicLantern/lib/*.a /opt/MagicLantern/include/*"
+FILES_${PN} += "\
+    /opt/MagicLantern/lib/*.so.* \
+    /opt/MagicLantern/include/mle/*"
+FILES_${PN}-dev += "\
+    /opt/MagicLantern/lib/*.so* \
+    /opt/MagicLantern/include/mle/*"
+FILES_${PN}-staticdev += "\
+    /opt/MagicLantern/lib/*.a \
+    /opt/MagicLantern/include/mle/*"
 
 #inherit autotools
 
 do_configure() {
     bbdebug 1 "Running libmlutil.bb custom do_configure()"
+    bbdebug 1 "D =" ${D}
     export MLE_HOME=${S}
-    export MLE_ROOT=${TMPDIR}/MagicLanternRoot/opt/MagicLantern
+    export MLE_ROOT=${D}/opt/MagicLantern
     cd ${S}/util/linux/build
     libtoolize
     aclocal
@@ -29,16 +36,18 @@ do_configure() {
 
 do_compile() {
     bbdebug 1 "Running libmlutil.bb custom do_compile()"
+    bbdebug 1 "D =" ${D}
     export MLE_HOME=${S}
-    export MLE_ROOT=${TMPDIR}/MagicLanternRoot/opt/MagicLantern
+    export MLE_ROOT=${D}/opt/MagicLantern
     cd ${S}/util/linux/build
     make
 }
 
-do_install() {
+do_install_append() {
     bbdebug 1 "Running libmlutil.bb custom do_install()"
+    bbdebug 1 "D =" ${D}
     export MLE_HOME=${S}
-    export MLE_ROOT=${TMPDIR}/MagicLanternRoot/opt/MagicLantern
+    export MLE_ROOT=${D}/opt/MagicLantern
     cd ${S}/util/linux/build
     make install
 }
