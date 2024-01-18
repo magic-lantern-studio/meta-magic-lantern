@@ -7,7 +7,9 @@ SRCREV = "ced026a568fb0b42b5612f0aab93ca3997e58ccc"
 SRC_URI = "git://github.com/magic-lantern-studio/mle-core-util.git"
 
 S = "${WORKDIR}/git"
-D = "${TMPDIR}/MagicLanternRoot"
+#D = "${TMPDIR}/MagicLanternRoot"
+
+SYSROOT_DIRS += "/opt"
 
 FILES_${PN} += "\
     /opt/MagicLantern/lib/*.so.* \
@@ -44,7 +46,7 @@ do_compile() {
 }
 
 do_install_append() {
-    bbdebug 1 "Running libmlutil.bb custom do_install()"
+    bbdebug 1 "Running libmlutil.bb custom do_install_append()"
     bbdebug 1 "D =" ${D}
     export MLE_HOME=${S}
     export MLE_ROOT=${D}/opt/MagicLantern
