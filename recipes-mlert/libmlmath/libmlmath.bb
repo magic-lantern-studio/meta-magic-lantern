@@ -11,15 +11,16 @@ S = "${WORKDIR}/git"
 
 SYSROOT_DIRS += "/opt"
 
-FILES_${PN} += "\
-    /opt/MagicLantern/lib/*.so.* \
-    /opt/MagicLantern/include/math/*"
+# The base package, this includes everything needed to actually
+# run the application on the target system.
+FILES_${PN} += ""
+# Development related files. Any headers, libraries and support
+# files needed for development work on the target.
 FILES_${PN}-dev += "\
-    /opt/MagicLantern/lib/*.so* \
+    /opt/MagicLantern/lib/* \
     /opt/MagicLantern/include/math/*"
 FILES_${PN}-staticdev += "\
-    /opt/MagicLantern/lib/*.a \
-    /opt/MagicLantern/include/math/*"
+    /opt/MagicLantern/lib/*.a"
 
 #inherit autotools
 
@@ -49,16 +50,16 @@ do_compile() {
 }
 
 #do_install_append() {
-do_install() {
+do_install_append() {
     bbdebug 1 "Running libmlmath.bb custom do_install()"
     bbdebug 1 "D =" ${D}
     export MLE_HOME=${S}
     export MLE_ROOT=${STAGING_DIR_TARGET}/opt/MagicLantern
-    cd ${S}/math/linux/libmlmath
-    make install
-    #cd ${S}/math/linux/libmlmath/libmlmath
-    #mkdir -p ${D}/opt/MagicLantern/lib
-    #../arm-poky-linux-gnueabi-libtool --mode=install install -c libmlmath.la ${D}/opt/MagicLantern/lib
-    #mkdir -p ${D}/opt/MagicLantern/include/math
-    #cp ${S}/math/common/include/math/*.h ${D}/opt/MagicLantern/include/math
+    #cd ${S}/math/linux/libmlmath
+    #make install
+    cd ${S}/math/linux/libmlmath/libmlmath
+    mkdir -p ${D}/opt/MagicLantern/lib
+    ../arm-poky-linux-gnueabi-libtool --mode=install install -c libmlmath.la ${D}/opt/MagicLantern/lib
+    mkdir -p ${D}/opt/MagicLantern/include/math
+    cp ${S}/math/common/include/math/*.h ${D}/opt/MagicLantern/include/math
 }
