@@ -11,15 +11,16 @@ S = "${WORKDIR}/git"
 
 SYSROOT_DIRS += "/opt"
 
-FILES_${PN} += "\
-    /opt/MagicLantern/lib/*.so.* \
-    /opt/MagicLantern/include/mle/*"
+# The base package, this includes everything needed to actually
+# run the application on the target system.
+FILES_${PN} += ""
+# Development related files. Any headers, libraries and support
+# files needed for development work on the target.
 FILES_${PN}-dev += "\
-    /opt/MagicLantern/lib/*.so* \
+    /opt/MagicLantern/lib/* \
     /opt/MagicLantern/include/mle/*"
 FILES_${PN}-staticdev += "\
-    /opt/MagicLantern/lib/*.a \
-    /opt/MagicLantern/include/mle/*"
+    /opt/MagicLantern/lib/*.a "
 
 #inherit autotools
 
